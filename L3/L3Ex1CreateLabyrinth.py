@@ -39,14 +39,6 @@ def create_labyrinth(rows, cols):
     return UndirectedGraph(E=corridors)
 
 
-
-
-
-
-
-
-
-
 #Labyrinth viewer
 #---> MAIN PROGRAM <---
 if __name__ == '__main__':
