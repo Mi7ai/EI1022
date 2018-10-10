@@ -1,10 +1,7 @@
 import sys
+
 from algoritmia.datastructures.digraphs import UndirectedGraph
-from labyrinthviewer import LabyrinthViewer
-
-
-
-
+import labyrinthviewer
 def load_labyrinth(nombre_fichero):
     vertices = set()
     f = 0  # f = fila
@@ -18,21 +15,20 @@ def load_labyrinth(nombre_fichero):
             if 'n' not in muro:
                 vertices.add(((f - 1), (c)))
             if 'e' not in muro:
-                vertices.add(( f, (c + 1)))
+                vertices.add((f, (c + 1)))
             if 'w' not in muro:
                 vertices.add((f, (c - 1)))
 
-
     f += 1
 
-    return UndirectedGraph(E=vertices)
+    return UndirectedGraph(vertices)
+
 
 
 
 if __name__ == '__main__':
-
-
     lab = load_labyrinth(sys.argv[1])
     print(lab)
+
     viewer = Labyrinthviewer(lab, canvas_width=800, canvas_height=480, margin=10)
     viewer.run()
