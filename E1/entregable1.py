@@ -1,6 +1,5 @@
 import sys
 from algoritmia.datastructures.digraphs import UndirectedGraph
-from E1.labyrinthviewer import LabyrinthViewer
 from labyrinthviewer import LabyrinthViewer
 
 
