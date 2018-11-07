@@ -68,15 +68,16 @@ class SudokuPS(PartialSolution):
          mejor_pos = argmin(self.vacias, lambda pos: len(posibles_en(self.s, pos[0], pos[1])))
         # esto se cambbia por pos de arriba y se añaden las 2 lineas de vacias_nueva
         # -------------------------
-        if mejor_pos(self.s) is None: return
+        if mejor_pos is None: return
         f, c = mejor_pos
-        vacias_nueva = deepcopy(self.vacias)
-        vacias_nueva.remove(mejor_pos)
         for num in posibles_en(self.s, f, c):
-                sudoku_nuevo[f][c] = num
-                yield SudokuPS(sudoku_nuevo,vacias)
-        sudoku_nuevo[f][c] = 0
-        self.vacias.append(mejor_pos)
+            sudoku_nuevo = deepcopy(self.s)
+            sudoku_nuevo[f][c] = num
+            vacias_copia = deepcopy(self.vacias)
+            vacias_copia.remove(mejor_pos)
+            yield SudokuPS(sudoku_nuevo,vacias_copia)
+
+
 
 # PROGRAMA PRINCIPAL -------------------------------------------------------
 if __name__ == "__main__":
