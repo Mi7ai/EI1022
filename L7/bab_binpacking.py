@@ -51,7 +51,7 @@ def binpacking_solve(objects: List[int], capacity: int):
                     if objects[num_object] <= containers_weights[num_container]:
                         containers_weights[num_container] -= objects[num_object]
                         break
-            return containers_weights
+            return len(containers_weights)
         
         def is_solution(self) -> bool:
             return self.n == len(objects)
