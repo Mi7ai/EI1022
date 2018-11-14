@@ -1,3 +1,5 @@
+from math import ceil
+
 from Utils.bab_scheme import BabPartialSolution, BabSolver, Solution
 from random import seed, randint
 from itertools import groupby
@@ -21,12 +23,36 @@ def binpacking_solve(objects: List[int], capacity: int):
             # --- (resto que caben + no_caben/nr_contenedores)+nr_contenedores
             #
             # el espacio libre en los contenedores: si es < que el tamaño del objeto, el contenedor esta cerrado
+            max_hueco = 0
+            if len(self.container_weights) > 0:
+                max_hueco = capacity - min(self.container_weights)
 
-            pass
+            suma_objs_caben = suma_objs_nocaben = 0
+            #creamos las jarras
+            for num_obj in range(self.n, len(objects)):
+                if objects[num_obj] <= max_hueco:
+                    suma_objs_caben += objects[num_obj]
+                else:
+                    suma_objs_nocaben += objects[num_obj]
+            for peso_contenedor in self.container_weights:
+                espacio_libre_contenedor = capacity - peso_contenedor #espacio libre en cada contenedor
+                if espacio_libre_contenedor >= objects[-1]:
+                    suma_objs_caben -= min(suma_objs_caben,espacio_libre_contenedor)  # rellano el contenedor y modifico cuanto le queda
+
+            return len(self.container_weights) + ceil((suma_objs_caben+suma_objs_nocaben)/capacity)
+
         # TODO: IMPLEMENTAR - Algoritmo voraz. Completa la solución parcial actual con "En el primero en el que quepa"
         def calc_pes_bound(self) -> Union[int, float]:
-            return len(self.container_weights) + (len(objects) - self.n)  # AHORA ES DEMASIADO PESIMISTA
+            #return len(self.container_weights) + (len(objects) - self.n)  # AHORA ES DEMASIADO PESIMISTA
+            containers_weights = list(self.container_weights[:]) + [0]* (len(objects)- self.n)  # Lista de contenedores sera igual a la longitud de la lista usar como java no con append
 
+            for num_object in range(self.n, len(objects)):
+                for num_container in range(len(containers_weights)):
+                    if objects[num_object] <= containers_weights[num_container]:
+                        containers_weights[num_container] -= objects[num_object]
+                        break
+            return containers_weights
+        
         def is_solution(self) -> bool:
             return self.n == len(objects)
 
